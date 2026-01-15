@@ -272,10 +272,22 @@ function loader() {
     console.log('Heading innerHTML after split:', heading.innerHTML);
     
   if (words?.length) {
+        // Right after gsap.set
     gsap.set(words, { yPercent: 110 });
     gsap.set(heading, { visibility: "visible" });
 
     console.log('After gsap.set - inline style:', words[0].getAttribute('style'));
+
+    // Monitor for changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          console.log('STYLE CHANGED!', words[0].getAttribute('style'));
+          console.trace('Change triggered by:');
+        }
+      });
+    });
+    observer.observe(words[0], { attributes: true });
 
     // Check again after a tiny delay
     setTimeout(() => {
