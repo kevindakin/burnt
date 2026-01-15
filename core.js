@@ -1,3 +1,5 @@
+gsap.registerPlugin(SplitText);
+
 // GLOBAL VARIABLES
 const durationBase = 0.8;
 const durationSlow = 1.2;
