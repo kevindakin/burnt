@@ -214,6 +214,11 @@ function copyright() {
 function createSplitText(target, type = "lines", options = {}) {
   const element = target.querySelector("h1, h2, h3, h4, h5, h6, p") || target;
 
+  // Revert any existing splits first
+  if (element._splitText) {
+    element._splitText.revert();
+  }
+
   const split = new SplitText(element, {
     type,
     mask: "lines",
@@ -224,6 +229,9 @@ function createSplitText(target, type = "lines", options = {}) {
     preserveWhitespace: false,
     ...options,
   });
+
+  // Store the instance for future reverts
+  element._splitText = split;
 
   return {
     split,
@@ -817,8 +825,6 @@ document.addEventListener("DOMContentLoaded", function () {
   fadeUpScroll();
   textScroller();
   cardScroller();
-
-  ScrollTrigger.refresh();
 
   window.addEventListener("resize", stickyFooter);
 
