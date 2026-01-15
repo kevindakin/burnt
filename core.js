@@ -271,9 +271,17 @@ function loader() {
     console.log('Words length:', words?.length);
     console.log('Heading innerHTML after split:', heading.innerHTML);
     
-    if (words?.length) {
-      gsap.set(words, { yPercent: 110 });
-      gsap.set(heading, { visibility: "visible" });
+  if (words?.length) {
+    console.log('About to set yPercent');
+    console.log('First word parent:', words[0].parentNode);
+    console.log('First word connected to DOM:', document.body.contains(words[0]));
+    
+    gsap.set(words, { yPercent: 110 });
+    
+    console.log('After gsap.set - inline style:', words[0].getAttribute('style'));
+    console.log('After gsap.set - transform:', words[0].style.transform);
+    
+    gsap.set(heading, { visibility: "visible" });
       
       console.log('Applied initial GSAP set');
       console.log('First word computed style:', window.getComputedStyle(words[0]));
