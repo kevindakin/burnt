@@ -1,5 +1,3 @@
-gsap.registerPlugin(SplitText);
-
 // GLOBAL VARIABLES
 const durationBase = 0.8;
 const durationSlow = 1.2;
@@ -819,6 +817,8 @@ document.addEventListener("DOMContentLoaded", function () {
   fadeUpScroll();
   textScroller();
   cardScroller();
+
+  ScrollTrigger.refresh();
 
   window.addEventListener("resize", stickyFooter);
 
