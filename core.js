@@ -214,11 +214,6 @@ function copyright() {
 function createSplitText(target, type = "lines", options = {}) {
   const element = target.querySelector("h1, h2, h3, h4, h5, h6, p") || target;
 
-  // Revert any existing splits first
-  if (element._splitText) {
-    element._splitText.revert();
-  }
-
   const split = new SplitText(element, {
     type,
     mask: "lines",
@@ -229,9 +224,6 @@ function createSplitText(target, type = "lines", options = {}) {
     preserveWhitespace: false,
     ...options,
   });
-
-  // Store the instance for future reverts
-  element._splitText = split;
 
   return {
     split,
@@ -269,10 +261,22 @@ function loader() {
   }
 
   if (heading) {
+    console.log('=== LOADER HEADING DEBUG ===');
+    console.log('Heading element:', heading);
+    console.log('Heading innerHTML before split:', heading.innerHTML);
+    
     const { words } = createSplitText(heading, "lines, words");
+    
+    console.log('Words after split:', words);
+    console.log('Words length:', words?.length);
+    console.log('Heading innerHTML after split:', heading.innerHTML);
+    
     if (words?.length) {
       gsap.set(words, { yPercent: 110 });
       gsap.set(heading, { visibility: "visible" });
+      
+      console.log('Applied initial GSAP set');
+      console.log('First word computed style:', window.getComputedStyle(words[0]));
 
       tl.to(
         words,
@@ -282,6 +286,8 @@ function loader() {
         },
         0.15
       );
+      
+      console.log('Added words animation to timeline');
     }
   }
 
