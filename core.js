@@ -261,53 +261,19 @@ function loader() {
   }
 
   if (heading) {
-    console.log('LOADER HEADING DEBUG');
-    console.log('Heading element:', heading);
-    console.log('Heading innerHTML before split:', heading.innerHTML);
-    
     const { words } = createSplitText(heading, "lines, words");
-    
-    console.log('Words after split:', words);
-    console.log('Words length:', words?.length);
-    console.log('Heading innerHTML after split:', heading.innerHTML);
-    
-  if (words?.length) {
-        // Right after gsap.set
-    gsap.set(words, { yPercent: 110 });
-    gsap.set(heading, { visibility: "visible" });
+    if (words?.length) {
+      gsap.set(words, { yPercent: 110 });
+      gsap.set(heading, { visibility: "visible" });
 
-    console.log('After gsap.set - inline style:', words[0].getAttribute('style'));
-
-    // Monitor for changes
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-          console.log('STYLE CHANGED!', words[0].getAttribute('style'));
-          console.trace('Change triggered by:');
-        }
-      });
-    });
-    observer.observe(words[0], { attributes: true });
-
-    // Check again after a tiny delay
-    setTimeout(() => {
-      console.log('After 50ms - inline style:', words[0].getAttribute('style'));
-    }, 50);
-
-    setTimeout(() => {
-      console.log('After 200ms (after timeline starts) - inline style:', words[0].getAttribute('style'));
-    }, 200);
-
-    tl.to(
-      words,
-      {
-        yPercent: 0,
-        stagger: 0.08,
-      },
-      0.15
-    );
-      
-      console.log('Added words animation to timeline');
+      tl.to(
+        words,
+        {
+          yPercent: 0,
+          stagger: 0.08,
+        },
+        0.15
+      );
     }
   }
 
@@ -838,8 +804,8 @@ function buttonHover() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  lenisScroll();
   loader();
+  lenisScroll();
   navScroll();
   stickyFooter();
   copyright();
