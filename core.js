@@ -545,8 +545,31 @@ function scroller() {
 
   wraps.forEach((wrap) => {
     const track = wrap.querySelector('[data-scroller="track"]');
-    if (!track) {
+    const list = wrap.querySelector(".scroller_main_list");
+
+    if (!track || !list) {
       return;
+    }
+
+    const items = list.querySelectorAll(".scroller_main_item");
+    if (!items.length) {
+      return;
+    }
+
+    const minItemsForFullScroll = 5;
+    let scrollDistance;
+
+    if (items.length >= minItemsForFullScroll) {
+      scrollDistance = "-100%";
+    } else {
+      const lastItem = items[items.length - 1];
+      const lastItemRect = lastItem.getBoundingClientRect();
+      const containerRect = track.getBoundingClientRect();
+      scrollDistance = -(lastItemRect.right - containerRect.right);
+
+      if (scrollDistance >= 0) {
+        return;
+      }
     }
 
     gsap
@@ -559,7 +582,7 @@ function scroller() {
         },
       })
       .to(track, {
-        x: "-100%",
+        x: scrollDistance,
         ease: "none",
       });
   });
