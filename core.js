@@ -272,28 +272,28 @@ function loader() {
     console.log('Heading innerHTML after split:', heading.innerHTML);
     
   if (words?.length) {
-    console.log('About to set yPercent');
-    console.log('First word parent:', words[0].parentNode);
-    console.log('First word connected to DOM:', document.body.contains(words[0]));
-    
     gsap.set(words, { yPercent: 110 });
-    
-    console.log('After gsap.set - inline style:', words[0].getAttribute('style'));
-    console.log('After gsap.set - transform:', words[0].style.transform);
-    
     gsap.set(heading, { visibility: "visible" });
-      
-      console.log('Applied initial GSAP set');
-      console.log('First word computed style:', window.getComputedStyle(words[0]));
 
-      tl.to(
-        words,
-        {
-          yPercent: 0,
-          stagger: 0.08,
-        },
-        0.15
-      );
+    console.log('After gsap.set - inline style:', words[0].getAttribute('style'));
+
+    // Check again after a tiny delay
+    setTimeout(() => {
+      console.log('After 50ms - inline style:', words[0].getAttribute('style'));
+    }, 50);
+
+    setTimeout(() => {
+      console.log('After 200ms (after timeline starts) - inline style:', words[0].getAttribute('style'));
+    }, 200);
+
+    tl.to(
+      words,
+      {
+        yPercent: 0,
+        stagger: 0.08,
+      },
+      0.15
+    );
       
       console.log('Added words animation to timeline');
     }
