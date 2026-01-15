@@ -261,7 +261,7 @@ function loader() {
   }
 
   if (heading) {
-    console.log('=== LOADER HEADING DEBUG ===');
+    console.log('LOADER HEADING DEBUG');
     console.log('Heading element:', heading);
     console.log('Heading innerHTML before split:', heading.innerHTML);
     
