@@ -808,10 +808,7 @@ function buttonHover() {
 function runWhenReady(fn) {
   window.Webflow = window.Webflow || [];
   Webflow.push(async () => {
-    // fonts can change line breaks -> SplitText cares
     if (document.fonts?.ready) await document.fonts.ready;
-
-    // let Webflow paint/layout settle
     requestAnimationFrame(() => requestAnimationFrame(fn));
   });
 }
@@ -829,7 +826,6 @@ runWhenReady(() => {
   ctaScroll();
   fadeUpScroll();
   textScroller();
-  cardScroller();
 
   window.addEventListener("resize", stickyFooter);
 
@@ -838,9 +834,9 @@ runWhenReady(() => {
     navDropdown();
     parallax();
     buttonHover();
+    cardScroller();
   });
   gsap.matchMedia().add("(max-width: 991px)", () => mobileMenu());
 
-  // if any ScrollTriggers depend on split sizes:
   ScrollTrigger.refresh();
 });
