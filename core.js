@@ -6,17 +6,6 @@ const easeBase = "power4.inOut";
 
 // GENERAL
 
-function lenisScroll() {
-  (lenis = new Lenis({
-    lerp: 0.12,
-  })),
-    lenis.on("scroll", ScrollTrigger.update),
-    gsap.ticker.add((e) => {
-      lenis.raf(1e3 * e);
-    }),
-    gsap.ticker.lagSmoothing(0);
-}
-
 function isMenuOpen() {
   const menu = document.querySelector(".nav_menu");
   return menu && menu.getAttribute("aria-hidden") === "false";
@@ -805,7 +794,6 @@ function buttonHover() {
 
 document.addEventListener("DOMContentLoaded", function () {
   loader();
-  lenisScroll();
   navScroll();
   stickyFooter();
   copyright();
