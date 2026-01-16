@@ -805,7 +805,18 @@ function buttonHover() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+function runWhenReady(fn) {
+  window.Webflow = window.Webflow || [];
+  Webflow.push(async () => {
+    // fonts can change line breaks -> SplitText cares
+    if (document.fonts?.ready) await document.fonts.ready;
+
+    // let Webflow paint/layout settle
+    requestAnimationFrame(() => requestAnimationFrame(fn));
+  });
+}
+
+runWhenReady(() => {
   lenisScroll();
   loader();
   navScroll();
@@ -822,17 +833,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("resize", stickyFooter);
 
-  gsap.matchMedia().add("(min-width: 768px)", () => {
-    scroller();
-  });
-
+  gsap.matchMedia().add("(min-width: 768px)", () => scroller());
   gsap.matchMedia().add("(min-width: 992px)", () => {
     navDropdown();
     parallax();
     buttonHover();
   });
+  gsap.matchMedia().add("(max-width: 991px)", () => mobileMenu());
 
-  gsap.matchMedia().add("(max-width: 991px)", () => {
-    mobileMenu();
-  });
+  // if any ScrollTriggers depend on split sizes:
+  ScrollTrigger.refresh();
 });
