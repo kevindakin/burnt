@@ -699,10 +699,10 @@ function mobileMenu() {
     },
     onStart: () => {
       isAnimating = true;
+      nav.classList.remove("is-open"); 
     },
     onComplete: () => {
       gsap.set(menu, { display: "none" });
-      nav.classList.remove("is-open");
       isAnimating = false;
     },
   });
