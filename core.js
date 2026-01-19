@@ -218,8 +218,6 @@ function createSplitText(target, type = "lines", options = {}) {
     type,
     mask: "lines",
     linesClass: "line",
-    wordsClass: "word",
-    charsClass: "char",
     autoSplit: true,
     deepSplit: true,
     reduceWhiteSpace: false,
@@ -545,11 +543,17 @@ function scroller() {
     return;
   }
 
+  const isShortViewport = window.innerHeight < 800;
+
   wraps.forEach((wrap) => {
     const track = wrap.querySelector('[data-scroller="track"]');
     const list = wrap.querySelector(".scroller_main_list");
 
     if (!track || !list) {
+      return;
+    }
+
+    if (isShortViewport) {
       return;
     }
 
@@ -589,6 +593,16 @@ function scroller() {
       });
   });
 }
+
+let resizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
+    scroller();
+  }, 250);
+});
 
 function textScroller() {
   const wraps = document.querySelectorAll('[data-text-scroller="section"]');
@@ -699,10 +713,10 @@ function mobileMenu() {
     },
     onStart: () => {
       isAnimating = true;
-      nav.classList.remove("is-open"); 
     },
     onComplete: () => {
       gsap.set(menu, { display: "none" });
+      nav.classList.remove("is-open");
       isAnimating = false;
     },
   });
@@ -819,24 +833,27 @@ runWhenReady(() => {
   navScroll();
   stickyFooter();
   copyright();
-  wordsScroll();
-  linesScroll();
-  charsScroll();
-  highlightScroll();
-  ctaScroll();
-  fadeUpScroll();
-  textScroller();
 
   window.addEventListener("resize", stickyFooter);
 
-  gsap.matchMedia().add("(min-width: 768px)", () => scroller());
   gsap.matchMedia().add("(min-width: 992px)", () => {
     navDropdown();
     parallax();
     buttonHover();
+    wordsScroll();
+    linesScroll();
+    charsScroll();
+    highlightScroll();
+    ctaScroll();
+    scroller();
+    fadeUpScroll();
+    textScroller();
     cardScroller();
   });
-  gsap.matchMedia().add("(max-width: 991px)", () => mobileMenu());
+
+  gsap.matchMedia().add("(max-width: 991px)", () => {
+    mobileMenu();
+  });
 
   ScrollTrigger.refresh();
 });
