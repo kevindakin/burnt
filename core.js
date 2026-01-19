@@ -830,7 +830,6 @@ function runWhenReady(fn) {
 runWhenReady(() => {
   lenisScroll();
   loader();
-  navScroll();
   stickyFooter();
   copyright();
 
@@ -838,6 +837,7 @@ runWhenReady(() => {
 
   gsap.matchMedia().add("(min-width: 992px)", () => {
     navDropdown();
+    navScroll();
     parallax();
     buttonHover();
     wordsScroll();
